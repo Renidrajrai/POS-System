@@ -4,6 +4,7 @@ import cors from 'cors'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
+import 'dotenv/config'
 
 import { ensureTables } from './db/setup.js'
 import authRoutes from './routes/auth.js'
@@ -55,7 +56,9 @@ if (fs.existsSync(distPath)) {
 
 app.use((err, req, res, next) => {
   console.error(`[${req.method} ${req.path}] Server error:`, err)
-  res.status(500).json({ error: err.message || 'Internal server error' })
+  const status = err.status || err.statusCode || 500
+  const message = err.expose ? err.message : 'Internal server error'
+  res.status(status).json({ error: message })
 })
 
 ensureTables().catch(err => console.error('Table setup error:', err))

@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import db from '../db/knex.js'
 import { authenticate } from '../middleware/auth.js'
+import { validate } from '../middleware/validate.js'
 
 const router = Router()
 router.use(authenticate)
@@ -18,7 +19,11 @@ router.get('/:id', async (req, res) => {
   res.json(item)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', validate({
+  Name: [{ required: true, type: 'string' }],
+  Price: [{ required: true, type: 'number', min: 0 }],
+  Category: [{ required: true, type: 'string' }],
+}), async (req, res) => {
   const item = {
     ...req.body,
     Sku: req.body.Sku || `SKU-${Date.now().toString(36).toUpperCase()}`,

@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import db from '../db/knex.js'
 import { authenticate } from '../middleware/auth.js'
+import { validate } from '../middleware/validate.js'
 
 const router = Router()
 router.use(authenticate)
@@ -21,7 +22,11 @@ router.get('/:id', async (req, res) => {
   res.json({ ...order, items })
 })
 
-router.post('/', async (req, res) => {
+router.post('/', validate({
+  Amount: [{ required: true, type: 'number', min: 0 }],
+  PaymentMethod: [{ required: true, type: 'string' }],
+  OrderType: [{ required: true, type: 'string' }],
+}), async (req, res) => {
   try {
     const { items, ...orderData } = req.body
     const order = {
@@ -78,7 +83,10 @@ router.put('/inventory/:id', async (req, res) => {
 
 // ---- Refunds & Voids ----
 
-router.post('/:id/refund', async (req, res) => {
+router.post('/:id/refund', validate({
+  Amount: [{ required: true, type: 'number', min: 0 }],
+  Reason: [{ required: true, type: 'string' }],
+}), async (req, res) => {
   const order = await db('Orders').where('Id', req.params.id).first()
   if (!order) return res.status(404).json({ error: 'Order not found' })
 

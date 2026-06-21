@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken'
 
-const SECRET = 'mauspot-jwt-secret-2026-minimum-32-chars!!'
+const SECRET = process.env.JWT_SECRET || 'mauspot-jwt-secret-2026-minimum-32-chars!!'
+const EXPIRES = process.env.JWT_EXPIRES_IN || '7d'
 
 export function generateToken(email, role = 'Admin') {
   return jwt.sign(
     { email, role },
     SECRET,
-    { expiresIn: '7d', issuer: 'mauspot', audience: 'mauspot' }
+    { expiresIn: EXPIRES, issuer: 'mauspot', audience: 'mauspot' }
   )
 }
 

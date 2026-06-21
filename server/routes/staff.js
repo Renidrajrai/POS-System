@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import db from '../db/knex.js'
 import { authenticate } from '../middleware/auth.js'
+import { validate } from '../middleware/validate.js'
 
 const router = Router()
 router.use(authenticate)
@@ -91,7 +92,12 @@ router.get('/:id', async (req, res) => {
   res.json(staff)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', validate({
+  FirstName: [{ required: true, type: 'string' }],
+  LastName: [{ required: true, type: 'string' }],
+  Email: [{ required: true, type: 'string' }],
+  Role: [{ required: true, type: 'string' }],
+}), async (req, res) => {
   const staff = {
     ...req.body,
     CreatedAt: await now(),

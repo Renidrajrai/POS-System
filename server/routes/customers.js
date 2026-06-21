@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import db from '../db/knex.js'
 import { authenticate } from '../middleware/auth.js'
+import { validate } from '../middleware/validate.js'
 
 const router = Router()
 router.use(authenticate)
@@ -27,7 +28,9 @@ router.get('/:id', async (req, res) => {
   res.json(customer)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', validate({
+  Name: [{ required: true, type: 'string' }],
+}), async (req, res) => {
   const customer = { ...req.body, CreatedAt: new Date() }
   const [{ Id: id }] = await db('Customers').insert(customer).returning('Id')
   const created = await db('Customers').where('Id', id).first()
