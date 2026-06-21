@@ -1,0 +1,2 @@
+Serving React build from dist/
+Meowspot running on http://localhost:5000

@@ -1,0 +1,28 @@
+Server error: error: select * from "Staff" where "Id" = $1 limit $2 - invalid input syntax for type integer: "{"Id":7}"
+    at parseErrorMessage (C:\Users\ASUS\OneDrive\Desktop\college wrk\Application developmennt\mauspot-react\node_modules\pg-protocol\dist\parser.js:305:11)
+    at Parser.handlePacket (C:\Users\ASUS\OneDrive\Desktop\college wrk\Application developmennt\mauspot-react\node_modules\pg-protocol\dist\parser.js:143:27)
+    at Parser.parse (C:\Users\ASUS\OneDrive\Desktop\college wrk\Application developmennt\mauspot-react\node_modules\pg-protocol\dist\parser.js:37:38)
+    at Socket.<anonymous> (C:\Users\ASUS\OneDrive\Desktop\college wrk\Application developmennt\mauspot-react\node_modules\pg-protocol\dist\index.js:11:42)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+  length: 151,
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: "unnamed portal parameter $1 = '...'",
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'numutils.c',
+  line: '620',
+  routine: 'pg_strtoint32_safe'
+}
